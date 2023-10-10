@@ -13,7 +13,7 @@ const apiInstance = axios.create({
 export const tokenApiRequests = {
 
     // api request to get the price of 1 token
-    getTokenPrice: (contractAddress) => axios.get(`http://localhost:5000/token/price?contractAddress=${contractAddress}`),
+    getTokenPrice: (contractAddress) => axios.get(`https://dex-backend-lcew.onrender.com/token/price?contractAddress=${contractAddress}`),
 
     // api request to 1inch api endpoint approve/allowance to check whether 1inch smart contract is approved to spend the selling token
     getTokenAllowance: (tokenToSellAddress, walletAddress, chainId) => {
