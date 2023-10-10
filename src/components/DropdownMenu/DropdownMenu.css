@@ -1,0 +1,18 @@
+.dropdown--menu {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    font-size: large;
+    color: white;
+    position: relative;
+    justify-content: flex-end;
+    /* sbackground: linear-gradient(73.28deg, #495BFC 6.51%, #114188 88.45%); */
+}
+
+.dropdown--container {
+    background-color: black;
+    position: absolute;
+    border: none;
+    border-radius: 1rem;
+    top: 2rem;
+}

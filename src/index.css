@@ -1,0 +1,13 @@
+* {
+    margin: 0px;
+    border: 0px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.App {
+    background: linear-gradient(180deg,
+            rgba(25, 33, 52, 1) 28%,
+            rgba(7, 8, 21, 1) 75%);
+    height: 100vh;
+}

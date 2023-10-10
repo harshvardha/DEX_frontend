@@ -1,0 +1,13 @@
+.dropdownitem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.chainLogo {
+    width: 2rem;
+}
