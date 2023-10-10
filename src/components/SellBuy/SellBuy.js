@@ -38,6 +38,7 @@ const SellBuy = ({
                         type="number"
                         value={tokenToSellAmount}
                         onChange={(event) => {
+                            event.preventDefault();
                             const amount = event.target.value;
                             setTokenToSellAmount(Number(amount));
                             if (tokenToBuyPrice && tokenToSellPrice) {

@@ -96,13 +96,14 @@ const Swap = () => {
         try {
 
             // checking for 1inch smart contract selling token allowance
+            console.log(chainId);
             const allowance = await tokenApiRequests.getTokenAllowance(tokenToSellAddress, accountAddress, chainId);
             if (allowance.data.allowance === "0") {
                 // getting 1inch smart contract approved to spend selling token if it is not approved to
                 const approve = await tokenApiRequests.getTransactionDetails(tokenToSellAddress, tokenToSellAmount, chainId)
 
                 // getting transaction details for swapping tokens transactions
-                const transaction = await tokenApiRequests.swapTokens(tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, accountAddress, slippage);
+                const transaction = await tokenApiRequests.swapTokens(tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, accountAddress, slippage, chainId);
 
                 // sending transaction details to metamask wallet to confirm the transaction
                 sendTransaction(transaction);

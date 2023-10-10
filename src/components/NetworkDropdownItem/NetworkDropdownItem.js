@@ -7,6 +7,7 @@ const NetworkDropdownItem = ({ imageURL, name, chainId, setNetworkName, setNetwo
     const { setChainId } = useContext(SwapContext);
 
     function switchNetwork() {
+        console.log(chainId);
         setChainId(chainId);
         const network = chainList.find(chain => chain.chainId === chainId);
         setNetworkName(network.chainName);

@@ -34,6 +34,7 @@ const SwapProvider = ({ children }) => {
 
     const connectWallet = async () => {
         // function to connect to metamask wallet
+        console.log(chainId);
 
         try {
             // checking if metamask exist or not
@@ -128,6 +129,7 @@ const SwapProvider = ({ children }) => {
                 tokenToSellPrice,
                 tokenToBuyPrice,
                 ratioOfTokenPrices,
+                chainId,
                 setRatioOfTokenPrices,
                 setTokenToSellAmount,
                 setTokenToBuyAmount,
