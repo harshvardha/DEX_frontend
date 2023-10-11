@@ -17,40 +17,6 @@
         }
     },
     {
-        "chainId": "0xa4b1",
-        "chainName": "Arbitrum",
-        "networkName": "Arbitrum Mainnet",
-        "rpcUrls": [
-            "https://arb1.arbitrum.io/rpc"
-        ],
-        "image": "https://app.1inch.io/assets/images/network-logos/arbitrum.svg",
-        "blockExplorerUrls": [
-            "https://arbiscan.io"
-        ],
-        "nativeCurrency": {
-            "name": "Ether",
-            "symbol": "ETH",
-            "decimals": 18
-        }
-    },
-    {
-        "chainId": "0xa",
-        "chainName": "Optimism",
-        "networkName": "Optimism Mainnet",
-        "rpcUrls": [
-            "https://mainnet.optimism.io"
-        ],
-        "image": "https://app.1inch.io/assets/images/network-logos/optimism.svg",
-        "blockExplorerUrls": [
-            "https://optimistic.etherscan.io"
-        ],
-        "nativeCurrency": {
-            "name": "Ether",
-            "symbol": "ETH",
-            "decimals": 18
-        }
-    },
-    {
         "chainId": "0x89",
         "chainName": "Polygon",
         "networkName": "Polygon Mainnet",
@@ -64,23 +30,6 @@
         "nativeCurrency": {
             "name": "Matic",
             "symbol": "MATIC",
-            "decimals": 18
-        }
-    },
-    {
-        "chainId": "0x4E454152",
-        "chainName": "Aurora",
-        "networkName": "Aurora Mainnet",
-        "rpcUrls": [
-            "https://mainnet.aurora.dev"
-        ],
-        "image": "https://app.1inch.io/assets/images/network-logos/aurora.svg",
-        "blockExplorerUrls": [
-            "https://aurorascan.dev"
-        ],
-        "nativeCurrency": {
-            "name": "Ether",
-            "symbol": "ETH",
             "decimals": 18
         }
     }

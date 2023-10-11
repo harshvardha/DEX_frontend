@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { SwapContext } from "../../context/SwapContext";
 import tokenList from "../../tokenList.json";
 import { tokenApiRequests } from "../../apiRequests";
@@ -18,6 +18,7 @@ const TokenDropdownItem = ({
     setTokenToSellImage
 }) => {
     const {
+        chainId,
         tokenToSellAddress,
         tokenToBuyAddress,
         tokenToSellPrice,
@@ -37,9 +38,13 @@ const TokenDropdownItem = ({
             this function arranges all the info required about the token 
         **/
 
-        const token = tokenList.find(token => token.address === tokenAddress);
+        const token = tokenList.find(token => token.address[chainId] === tokenAddress);
         try {
-            const tokenInfo = await tokenApiRequests.getTokenPrice(tokenAddress);
+            const tokenInfo = await tokenApiRequests.getTokenPrice(tokenAddress, chainId);
+            if (!tokenInfo) {
+                alert("This token does not exist on this network.");
+                return;
+            }
             if (tokenType === "sell" && tokenAddress !== tokenToBuyAddress) {
                 setTokenToSellAddress(tokenAddress);
                 setTokenToSellPrice(tokenInfo.data.usdPrice);
