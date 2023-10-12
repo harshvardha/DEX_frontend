@@ -53,7 +53,7 @@ const Swap = () => {
     const [tokenToBuyImage, setTokenToBuyImage] = useState("");
 
     // slippage value can be selected through clicking on settings icon
-    const [slippage, setSlippage] = useState();
+    const [slippage, setSlippage] = useState(0.5);
 
     // open/close state manager for slippage popup
     const [isSlippageOpen, setIsSlippageOpen] = useState(false);
@@ -136,6 +136,7 @@ const Swap = () => {
                                     id="0.5"
                                     name="slippagePercent"
                                     value={"0.5"}
+                                    defaultChecked
                                     onClick={(event) => setSlippage(event.target.value)}
                                 />
                                 <label htmlFor="0.5">0.5%</label>
