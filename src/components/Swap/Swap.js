@@ -11,18 +11,20 @@ import { tokenApiRequests } from "../../apiRequests";
 
 const Swap = () => {
     const {
+        getQuote,
         chainId,
         tokenToSellAddress,
+        tokenToSellDecimals,
+        tokenToBuyDecimals,
         tokenToBuyAddress,
-        tokenToSellPrice,
-        tokenToBuyPrice,
         tokenToSellAmount,
         tokenToBuyAmount,
         accountAddress,
-        setTokenToSellPrice,
-        setTokenToBuyPrice,
+        setTokenToSellAddress,
+        setTokenToBuyAddress,
         setTokenToSellAmount,
-        setTokenToBuyAmount,
+        setTokenToSellDecimals,
+        setTokenToBuyDecimals,
         sendTransaction
     } = useContext(SwapContext);
 
@@ -76,18 +78,22 @@ const Swap = () => {
         setTokenToSellName(tokenToBuyName);
         setTokenToBuyName(temp);
 
-        // reversing the token prices ratio
-        const ratio = tokenToBuyPrice / tokenToSellPrice;
+        // calling getQuote function to update the quote value after reverse of tokens
+        getQuote(null, tokenToBuyAddress, tokenToSellAddress, tokenToBuyAmount, tokenToBuyDecimals, tokenToSellDecimals);
 
-        // reversing the price of selected tokens
-        temp = tokenToSellPrice;
-        setTokenToSellPrice(tokenToBuyPrice);
-        setTokenToBuyPrice(temp);
+        // reversing the decimals of the selected tokens
+        temp = tokenToSellDecimals;
+        setTokenToSellDecimals(tokenToBuyDecimals);
+        setTokenToBuyDecimals(temp);
 
-        // reversing the amount of selected tokens
-        temp = tokenToSellAmount;
-        setTokenToSellAmount(tokenToBuyAmount * ratio);
-        setTokenToBuyAmount(temp * ratio);
+        // reversing the addressess of selected tokens
+        temp = tokenToSellAddress;
+        setTokenToSellAddress(tokenToBuyAddress);
+        setTokenToBuyAddress(temp);
+
+        // making buy amount sell amount
+        setTokenToSellAmount(tokenToBuyAmount);
+
     }
 
     const swapTokens = async (event) => {
@@ -98,6 +104,7 @@ const Swap = () => {
             // checking for 1inch smart contract selling token allowance
             console.log(chainId);
             const allowance = await tokenApiRequests.getTokenAllowance(tokenToSellAddress, accountAddress, chainId);
+            console.log(`allowance: ${JSON.stringify(allowance)}`);
             if (allowance.data.allowance === "0") {
                 // getting 1inch smart contract approved to spend selling token if it is not approved to
                 const approve = await tokenApiRequests.getTransactionDetails(tokenToSellAddress, tokenToSellAmount, chainId)
@@ -105,10 +112,10 @@ const Swap = () => {
                 // getting transaction details for swapping tokens transactions
                 console.log(`slippage: ${typeof slippage}`);
                 const transaction = await tokenApiRequests.swapTokens(tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, accountAddress, slippage, chainId);
-                console.log(`transaction details: ${transaction}`);
+                console.log(`transaction details: ${JSON.stringify(transaction)}`);
 
                 // sending transaction details to metamask wallet to confirm the transaction
-                sendTransaction(transaction);
+                sendTransaction(transaction)
             }
         } catch (error) {
             console.log(error);

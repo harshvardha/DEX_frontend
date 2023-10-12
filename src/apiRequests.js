@@ -13,7 +13,7 @@ const apiInstance = axios.create({
 export const tokenApiRequests = {
 
     // api request to get the price of 1 token
-    getTokenPrice: (contractAddress, chainId) => axios.get(`https://dex-backend-lcew.onrender.com/token/price?contractAddress=${contractAddress}&chainId=${chainId}`),
+    getQuote: (tokenToSellAddress, tokenToBuyAddress, amount, chainId) => axios.get(`https://dex-backend-lcew.onrender.com/token/price?tokenToSellAddress=${tokenToSellAddress}&tokenToBuyAddress=${tokenToBuyAddress}&amount=${amount}&chainId=${chainId}`),
 
     // api request to 1inch api endpoint approve/allowance to check whether 1inch smart contract is approved to spend the selling token
     getTokenAllowance: (tokenToSellAddress, walletAddress, chainId) => {
@@ -35,14 +35,13 @@ export const tokenApiRequests = {
     // api request to 1inch api endpoint "approve/transaction" to approve 1inch smart contract to spend the selling token from our metamask wallet
     getTransactionDetails: (tokenToSellAddress, tokenToSellAmount, chainId) => {
         const token = tokenList.find(token => token.address[chainId] === tokenToSellAddress);
+        const amount = Number(tokenToSellAmount) * Math.pow(10, token.decimals);
         let approve;
         switch (chainId) {
             case "0x1":
-                approve = apiInstance.get(`/1/approve/transaction?tokenAddress=${tokenToSellAddress}&amount=${amount}`);
+                approve = apiInstance.get(`/1/approve/transaction?tokenAddress=${tokenToSellAddress}&amount=${String(amount)}`);
                 break;
             case "0x89":
-                const amount = tokenToSellAmount * Math.pow(10, token.decimals);
-                console.log(amount);
                 approve = apiInstance.get(`/137/approve/transaction?tokenAddress=${tokenToSellAddress}&amount=${String(amount)}`);
                 break
             default:
@@ -55,14 +54,13 @@ export const tokenApiRequests = {
     // api request to 1inch api endpoint approve/transaction to get the transaction details of the swap transaction to use it to send transaction through metamask
     swapTokens: (tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, walletAddress, slippage, chainId) => {
         const token = tokenList.find(token => token.address[chainId] === tokenToSellAddress);
+        const amount = Number(tokenToSellAmount) * Math.pow(10, token.decimals);
         let tx;
         switch (chainId) {
             case "0x1":
-                tx = apiInstance.get(`/1/swap?fromTokenAddress=${tokenToSellAddress}&toTokenAddress=${tokenToBuyAddress}&amount=${String(tokenToSellAmount).padEnd(String(token.decimals) + String(tokenToSellAmount).length, '0')}&fromAddress=${walletAddress}&slippage=${slippage}`);
+                tx = apiInstance.get(`/1/swap?fromTokenAddress=${tokenToSellAddress}&toTokenAddress=${tokenToBuyAddress}&amount=${String(amount)}&fromAddress=${walletAddress}&slippage=${Number(slippage)}`);
                 break;
             case "0x89":
-                const amount = tokenToSellAmount * Math.pow(10, token.decimals);
-                console.log(amount);
                 tx = apiInstance.get(`/137/swap?fromTokenAddress=${tokenToSellAddress}&toTokenAddress=${tokenToBuyAddress}&amount=${String(amount)}&fromAddress=${walletAddress}&slippage=${Number(slippage)}`);
                 break;
             default:

@@ -15,7 +15,7 @@
         "name": "Chainlink",
         "address": {
             "0x1": "0x514910771af9ca656af840dff83e8264ecf986ca",
-            "0x89": "0xb0897686c545045aFc77CF20eC7A532E3120E0F1"
+            "0x89": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39"
         },
         "decimals": 18
     },
@@ -28,6 +28,16 @@
             "0x89": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"
         },
         "decimals": 6
+    },
+    {
+        "ticker": "MATIC",
+        "img": "https://cdn.moralis.io/eth/0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0.png",
+        "name": "Matic Token",
+        "address": {
+            "0x1": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+            "0x89": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        "decimals": 18
     },
     {
         "ticker": "GUSD",
@@ -55,7 +65,7 @@
         "name": "Wrapped Ethereum",
         "address": {
             "0x1": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-            "0x89": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
+            "0x89": "0xfc5edbb0b6bd7fd79016630d414a353d5904f3ae"
         },
         "decimals": 18
     },
@@ -68,16 +78,6 @@
             "0x89": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"
         },
         "decimals": 8
-    },
-    {
-        "ticker": "MATIC",
-        "img": "https://cdn.moralis.io/eth/0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0.png",
-        "name": "Matic Token",
-        "address": {
-            "0x1": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-            "0x89": "0x0000000000000000000000000000000000001010"
-        },
-        "decimals": 18
     },
     {
         "ticker": "UNI",
@@ -115,7 +115,7 @@
         "name": "Shiba Inu",
         "address": {
             "0x1": "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce",
-            "0x89": "0x6f8a06447Ff6FcF75d803135a7de15CE88C1d4ec"
+            "0x89": "0x29677f400717bf83e566ee48e5a637cd56ca7bd6"
         },
         "decimals": 18
     },

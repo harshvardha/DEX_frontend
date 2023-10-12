@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import chainList from "../chainList.json";
+import { tokenApiRequests } from "../apiRequests";
 
 const SwapContext = React.createContext();
 const { ethereum } = window;
@@ -17,20 +18,17 @@ const SwapProvider = ({ children }) => {
     // metamask connected account address
     const [accountAddress, setAccountAddress] = useState("");
 
-    // price of 1 token of the selling token
-    const [tokenToSellPrice, setTokenToSellPrice] = useState(0.0);
-
     // n. of selling tokens
     const [tokenToSellAmount, setTokenToSellAmount] = useState("");
-
-    // price of 1 token of the buying token
-    const [tokenToBuyPrice, setTokenToBuyPrice] = useState(0.0);
 
     // no. of buying tokens
     const [tokenToBuyAmount, setTokenToBuyAmount] = useState("");
 
-    // ratio between the price of 1 selling token and 1 buying token (i.e. tokenToSellPrice / tokenToBuyPrice)
-    const [ratioOfTokenPrices, setRatioOfTokenPrices] = useState();
+    // decimals of selling token
+    const [tokenToSellDecimals, setTokenToSellDecimals] = useState(0);
+
+    // decimals of buying token
+    const [tokenToBuyDecimals, setTokenToBuyDecimals] = useState(0);
 
     const connectWallet = async () => {
         // function to connect to metamask wallet
@@ -91,6 +89,48 @@ const SwapProvider = ({ children }) => {
         }
     }
 
+    const getQuote = async (event, sellAddress, buyAddress, sellAmount, sellDecimals, buyDecimals, network) => {
+        let amount, sellTokenAddress, buyTokenAddress, sellTokenDecimals, buyTokenDecimals, networkId;
+        if (event) {
+            event.preventDefault();
+            amount = event.target.value;
+            setTokenToSellAmount(amount);
+        }
+        else {
+            if (sellAddress) {
+                sellTokenAddress = sellAddress;
+            }
+            if (buyAddress) {
+                buyTokenAddress = buyAddress;
+            }
+            if (sellDecimals) {
+                sellTokenDecimals = sellDecimals;
+            }
+            if (buyDecimals) {
+                buyTokenDecimals = buyDecimals;
+            }
+            if (network) {
+                networkId = network;
+            }
+            amount = sellAmount ? sellAmount : tokenToSellAmount;
+        }
+        try {
+            if (tokenToSellAddress && tokenToBuyAddress && Number(amount) > 0) {
+                const quote = await tokenApiRequests.getQuote(
+                    sellTokenAddress ? sellTokenAddress : tokenToSellAddress,
+                    buyTokenAddress ? buyTokenAddress : tokenToBuyAddress,
+                    Number(amount) * Math.pow(10, sellTokenDecimals ? sellTokenDecimals : tokenToSellDecimals),
+                    networkId ? networkId : chainId
+                );
+                console.log(`quote: ${JSON.stringify(quote.data)}`);
+                const buyAmount = Number(quote.data.toAmount) / Math.pow(10, buyTokenDecimals ? buyTokenDecimals : tokenToBuyDecimals);
+                setTokenToBuyAmount(buyAmount);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const sendTransaction = async (transaction) => {
         // function to send transaction through metamask for exchanging token
         try {
@@ -126,19 +166,18 @@ const SwapProvider = ({ children }) => {
                 accountAddress,
                 tokenToSellAmount,
                 tokenToBuyAmount,
-                tokenToSellPrice,
-                tokenToBuyPrice,
-                ratioOfTokenPrices,
                 chainId,
-                setRatioOfTokenPrices,
+                tokenToSellDecimals,
+                tokenToBuyDecimals,
                 setTokenToSellAmount,
                 setTokenToBuyAmount,
-                setTokenToSellPrice,
-                setTokenToBuyPrice,
                 setTokenToSellAddress,
                 setTokenToBuyAddress,
+                setTokenToSellDecimals,
+                setTokenToBuyDecimals,
                 setChainId,
                 setAccountAddress,
+                getQuote,
                 connectWallet,
                 sendTransaction
             }}

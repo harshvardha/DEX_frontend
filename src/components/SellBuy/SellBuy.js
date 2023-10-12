@@ -12,14 +12,9 @@ const SellBuy = ({
 }) => {
 
     const {
+        getQuote,
         tokenToSellAmount,
-        tokenToBuyAmount,
-        tokenToSellPrice,
-        tokenToBuyPrice,
-        ratioOfTokenPrices,
-        setTokenToSellAmount,
-        setTokenToBuyAmount,
-        setRatioOfTokenPrices
+        tokenToBuyAmount
     } = useContext(SwapContext);
 
     return (
@@ -37,15 +32,7 @@ const SellBuy = ({
                         required
                         type="number"
                         value={tokenToSellAmount}
-                        onChange={(event) => {
-                            const amount = event.target.value;
-                            setTokenToSellAmount(Number(amount));
-                            if (tokenToBuyPrice && tokenToSellPrice) {
-                                const ratio = tokenToSellPrice / tokenToBuyPrice;
-                                setRatioOfTokenPrices(ratio);
-                                setTokenToBuyAmount(ratio * amount);
-                            }
-                        }}
+                        onChange={getQuote}
                     />) : (
                     <p>{tokenToBuyAmount}</p>
                 )
@@ -53,7 +40,6 @@ const SellBuy = ({
             </div>
             <div className="tokenPrice">
                 <p>{tokenName}</p>
-                <p>{tokenType === "sell" ? tokenToSellPrice * tokenToSellAmount : tokenToBuyPrice * tokenToBuyAmount}</p>
             </div>
         </div>
     )

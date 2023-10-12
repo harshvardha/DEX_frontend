@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { SwapContext } from "../../context/SwapContext";
 import tokenList from "../../tokenList.json";
-import { tokenApiRequests } from "../../apiRequests";
 
 const TokenDropdownItem = ({
     imageURL,
@@ -18,18 +17,12 @@ const TokenDropdownItem = ({
     setTokenToSellImage
 }) => {
     const {
+        getQuote,
         chainId,
-        tokenToSellAddress,
-        tokenToBuyAddress,
-        tokenToSellPrice,
-        tokenToBuyPrice,
-        tokenToSellAmount,
         setTokenToSellAddress,
         setTokenToBuyAddress,
-        setTokenToSellPrice,
-        setTokenToBuyPrice,
-        setRatioOfTokenPrices,
-        setTokenToBuyAmount
+        setTokenToSellDecimals,
+        setTokenToBuyDecimals,
     } = useContext(SwapContext);
 
     const changeTokenAddress = async (event) => {
@@ -39,38 +32,28 @@ const TokenDropdownItem = ({
         **/
 
         const token = tokenList.find(token => token.address[chainId] === tokenAddress);
-        try {
-            const tokenInfo = await tokenApiRequests.getTokenPrice(tokenAddress, chainId);
-            if (!tokenInfo) {
-                alert("This token does not exist on this network.");
-                return;
-            }
-            if (tokenType === "sell" && tokenAddress !== tokenToBuyAddress) {
-                setTokenToSellAddress(tokenAddress);
-                setTokenToSellPrice(tokenInfo.data.usdPrice);
-                setTokenToSellTicker(token.ticker);
-                setTokenToSellName(token.name);
-                setTokenToSellImage(token.img);
-                setIsOpenSell(false);
-                if (tokenToBuyPrice) {
-                    const ratio = tokenInfo.data.usdPrice / tokenToBuyPrice;
-                    setRatioOfTokenPrices(ratio);
-                    setTokenToBuyAmount(ratio * tokenToSellAmount);
-                }
-            }
-            else if (tokenType === "buy" && tokenAddress !== tokenToSellAddress) {
-                setTokenToBuyAddress(tokenAddress);
-                setTokenToBuyPrice(tokenInfo.data.usdPrice);
-                setTokenToBuyTicker(token.ticker);
-                setTokenToBuyName(token.name);
-                setTokenToBuyImage(token.img);
-                setIsOpenBuy(false);
-                const ratio = tokenToSellPrice / tokenInfo.data.usdPrice;
-                setRatioOfTokenPrices(ratio);
-                setTokenToBuyAmount(ratio * tokenToSellAmount)
-            }
-        } catch (error) {
-            console.log(error);
+
+        if (tokenType === "sell") {
+            setTokenToSellAddress(tokenAddress);
+            setTokenToSellTicker(token.ticker);
+            setTokenToSellName(token.name);
+            setTokenToSellImage(token.img);
+            setTokenToSellDecimals(token.decimals);
+            setIsOpenSell(false);
+
+            // getQuote will be called if user changes the sell token
+            getQuote(null, tokenAddress, null, null, token.decimals, null);
+        }
+        if (tokenType === "buy") {
+            setTokenToBuyAddress(tokenAddress);
+            setTokenToBuyTicker(token.ticker);
+            setTokenToBuyName(token.name);
+            setTokenToBuyImage(token.img);
+            setTokenToBuyDecimals(token.decimals);
+            setIsOpenBuy(false);
+
+            // getQuote will be called if user changes the buy token
+            getQuote(null, null, tokenAddress, null, null, token.decimals);
         }
     }
 
