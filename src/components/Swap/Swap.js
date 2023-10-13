@@ -109,14 +109,15 @@ const Swap = () => {
                 // getting 1inch smart contract approved to spend selling token if it is not approved to
                 const approve = await tokenApiRequests.getTransactionDetails(tokenToSellAddress, tokenToSellAmount, chainId)
                 console.log(`approve: ${JSON.stringify(approve)}`);
-                // getting transaction details for swapping tokens transactions
-                console.log(`slippage: ${typeof slippage}`);
-                const transaction = await tokenApiRequests.swapTokens(tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, accountAddress, slippage, chainId);
-                console.log(`transaction details: ${JSON.stringify(transaction)}`);
-
-                // sending transaction details to metamask wallet to confirm the transaction
-                sendTransaction(transaction)
             }
+
+            // getting transaction details for swapping tokens transactions
+            console.log(`slippage: ${typeof slippage}`);
+            const transaction = await tokenApiRequests.swapTokens(tokenToSellAddress, tokenToBuyAddress, tokenToSellAmount, accountAddress, slippage, chainId);
+            console.log(`transaction details: ${JSON.stringify(transaction)}`);
+
+            // sending transaction details to metamask wallet to confirm the transaction
+            sendTransaction(transaction)
         } catch (error) {
             console.log(error);
         }

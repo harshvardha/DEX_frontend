@@ -138,12 +138,12 @@ const SwapProvider = ({ children }) => {
                 method: "eth_sendTransaction",
                 params: [
                     {
-                        from: transaction.tx.from,
-                        to: transaction.tx.to,
-                        gas: transaction.tx.gas,
-                        gasPrice: transaction.tx.gasPrice,
-                        value: transaction.tx.value,
-                        data: transaction.tx.data
+                        from: transaction.data.tx.from,
+                        to: transaction.data.tx.to,
+                        gas: String(transaction.data.tx.gas),
+                        gasPrice: transaction.data.tx.gasPrice,
+                        value: transaction.data.tx.value,
+                        data: transaction.data.tx.data
                     }
                 ]
             })
